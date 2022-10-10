@@ -17,7 +17,7 @@ from torchvision import transforms
 transform = transforms.Compose([transforms.Resize(224, interpolation = transforms.InterpolationMode.BICUBIC), transforms.CenterCrop(224)])
 
 def download(row):
-    print("download")
+    # print("download")
     rfile = f"images/{zlib.crc32(row['image'].encode('utf-8')) & 0xffffffff}.png"
     file = f"{row['dir']}/{rfile}"
     
@@ -32,13 +32,13 @@ def download(row):
     except Exception as e:
         row["status"] = 404
         return row
-    print(response.ok)
+    # print(response.ok)
     if(response.ok):
         try:
             response.raw.decode_content = True 
             image = Image.open(BytesIO(response.content)).convert("RGB")
             image = transform(image)
-            print(file)
+            # print(file)
             image.save(file)
         except:
             row["status"] = 404
@@ -62,8 +62,8 @@ def multiprocess(df, function, dir, hash):
             bar.update()
 
         data = [(index, df[i:i + 50], function) for index, i in enumerate(range(0, len(df), 50)) if index not in finished]
-        print("multiprocess")
-        print(len(data))
+        # print("multiprocess")
+        # print(len(data))
         if(len(data) > 0):
             with Pool() as pool:
                 for result in pool.imap_unordered(apply, data, 2):
@@ -85,8 +85,8 @@ def run(options):
     df = pd.read_csv(options.file, sep = "\t", names = ["caption", "image"])
     df["dir"] = options.dir
     df = df[options.start:options.end]
-    print(df)
-    print("run")
+    # print(df)
+    # print("run")
     df = multiprocess(df, function = download, dir = options.dir, hash = options.hash)    
     df.to_csv(f"{options.dir}/train.csv", index = False)
 
