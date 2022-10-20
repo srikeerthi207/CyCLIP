@@ -8,7 +8,6 @@ import warnings
 from PIL import Image
 from tqdm import tqdm
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize, RandomResizedCrop
-
 from utils import config
 from .model import build
 from .tokenizer import SimpleTokenizer as Tokenizer

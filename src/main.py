@@ -17,8 +17,13 @@ import torch.backends.cudnn as cudnn
 from torch.cuda.amp import GradScaler
 from torch.nn.parallel import DistributedDataParallel as DDP
 
+# print("path 1 = ")
+# print(sys.path)
+# sys.path.insert(1, '../')
+# print("path 2 = ")
+# print(sys.path)
 from pkgs.openai.clip import load as load_model
-
+sys.path.insert(1, 'src')
 from .train import train
 from .evaluate import evaluate
 from .data import load as load_data
